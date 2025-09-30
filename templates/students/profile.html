@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Student Profile - College Fee System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    {% if student.profile_picture %}
+                        <img src="{{ student.profile_picture.url }}" alt="{{ student.full_name }}" class="rounded-circle img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <i class="bi bi-person-fill" style="font-size: 4rem;"></i>
+                        </div>
+                    {% endif %}
+                    <h4 class="card-title">{{ student.full_name }}</h4>
+                    <p class="text-muted">{{ student.college_id }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Student Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">College ID:</div>
+                        <div class="col-md-8">{{ student.college_id }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Full Name:</div>
+                        <div class="col-md-8">{{ student.full_name }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Email:</div>
+                        <div class="col-md-8">{{ student.email }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Phone Number:</div>
+                        <div class="col-md-8">{{ student.phone_number }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Admission Type:</div>
+                        <div class="col-md-8">{{ student.get_admission_type_display }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Fee Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">College Fee:</div>
+                        <div class="col-md-8">₹{{ student.college_fee }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Exam Fee:</div>
+                        <div class="col-md-8">₹{{ student.exam_fee }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Bus Fee:</div>
+                        <div class="col-md-8">₹{{ student.bus_fee }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 fw-bold">Total Fee:</div>
+                        <div class="col-md-8 fw-bold text-primary">₹{{ student.get_total_fees }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

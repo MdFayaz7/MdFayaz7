@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pay Fee - College Fee System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .fee-card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .fee-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .fee-card.selected {
+        border: 2px solid var(--bs-primary);
+        background: rgba(13, 110, 253, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-success text-white text-center py-4">
+                <h3 class="mb-0">
+                    <i class="bi bi-credit-card me-2"></i>Fee Payment
+                </h3>
+                <p class="mb-0 mt-2">Select the fee type you want to pay</p>
+            </div>
+            <div class="card-body p-4">
+                <!-- Student Info -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="mb-1">
+                                        <i class="bi bi-person-circle me-2"></i>{{ student.full_name }}
+                                    </h6>
+                                    <small>College ID: {{ student.college_id }} | Admission: {{ student.get_admission_type_display }}</small>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <small class="text-muted">Total Fees: ₹{{ student.get_total_fees }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fee Options -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="card fee-card h-100" data-fee-type="college_fee">
+                            <div class="card-body text-center">
+                                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                    <i class="bi bi-building display-6"></i>
+                                </div>
+                                <h5 class="card-title">College Fee</h5>
+                                <h3 class="text-primary">₹{{ fee_amounts.college_fee }}</h3>
+                                <p class="card-text text-muted">Annual college tuition fee</p>
+                                <button class="btn btn-primary" data-fee-type="college_fee">
+                                    <i class="bi bi-credit-card me-2"></i>Pay Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card fee-card h-100" data-fee-type="exam_fee">
+                            <div class="card-body text-center">
+                                <div class="bg-warning text-dark rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                    <i class="bi bi-journal-text display-6"></i>
+                                </div>
+                                <h5 class="card-title">Exam Fee</h5>
+                                <h3 class="text-warning">₹{{ fee_amounts.exam_fee }}</h3>
+                                <p class="card-text text-muted">Semester examination fee</p>
+                                <button class="btn btn-warning" data-fee-type="exam_fee">
+                                    <i class="bi bi-credit-card me-2"></i>Pay Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card fee-card h-100" data-fee-type="bus_fee">
+                            <div class="card-body text-center">
+                                <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                    <i class="bi bi-bus-front display-6"></i>
+                                </div>
+                                <h5 class="card-title">Bus Fee</h5>
+                                <h3 class="text-info">₹{{ fee_amounts.bus_fee }}</h3>
+                                <p class="card-text text-muted">Transportation service fee</p>
+                                <button class="btn btn-info" data-fee-type="bus_fee">
+                                    <i class="bi bi-credit-card me-2"></i>Pay Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Info -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card bg-light text-dark">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <i class="bi bi-info-circle me-2"></i>Payment Information
+                                </h6>
+                                <ul class="mb-0">
+                                    <li>Payments are processed securely through Razorpay</li>
+                                    <li>You can pay using Credit Card, Debit Card, Net Banking, or UPI</li>
+                                    <li>Receipt will be generated automatically after successful payment</li>
+                                    <li>For any payment issues, contact the college administration</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden data for JavaScript -->
+<div style="display: none;">
+    <span data-razorpay-key="{{ razorpay_key_id }}"></span>
+    <span data-student-name="{{ student.full_name }}"></span>
+    <span data-student-email="{{ student.email }}"></span>
+    <span data-student-phone="{{ student.phone_number }}"></span>
+</div>
+
+{% csrf_token %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/payments.js' %}"></script>
+{% endblock %}
