@@ -4,17 +4,13 @@
     {
       "src": "college_fee_system/wsgi.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
-    },
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "staticfiles",
-        "installCommand": "python -m pip install --upgrade pip && pip install -r requirements.txt"
+      "config": { 
+        "maxLambdaSize": "15mb", 
+        "runtime": "python3.9"
       }
     }
   ],
+  "installCommand": "pip install -r requirements.txt",
   "routes": [
     {
       "src": "/static/(.*)",
