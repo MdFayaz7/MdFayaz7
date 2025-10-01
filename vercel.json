@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "framework": "django",
   "builds": [
     {
       "src": "college_fee_system/wsgi.py",
