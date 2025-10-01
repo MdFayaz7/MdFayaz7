@@ -19,10 +19,7 @@ services:
       - key: RAZORPAY_KEY_SECRET
         sync: false
       - key: ALLOWED_HOSTS
-        fromService:
-          type: web
-          name: college-fee-system
-          property: host
+        value: "college-fee-system.onrender.com"
       - key: RENDER_EXTERNAL_URL
         fromService:
           type: web
