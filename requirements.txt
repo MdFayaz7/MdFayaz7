@@ -6,3 +6,6 @@ python-decouple==3.8
 bcrypt==4.0.1
 django-cors-headers==4.3.1
 setuptools==65.5.0
+gunicorn==21.2.0
+psycopg2-binary==2.9.7
+dj-database-url==2.1.0

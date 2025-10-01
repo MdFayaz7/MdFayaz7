@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: college-fee-system
+    runtime: python3
+    buildCommand: "pip install -r requirements.txt && npm install && npm run build && python manage.py collectstatic --noinput && python manage.py migrate"
+    startCommand: "gunicorn college_fee_system.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: college-fee-db
+          property: connectionString
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: college-fee-system
+          property: host
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: college-fee-system
+          property: host
+
+databases:
+  - name: college-fee-db
+    databaseName: college_fee_system
+    user: college_fee_user
