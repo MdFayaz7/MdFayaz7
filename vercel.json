@@ -9,7 +9,7 @@
       }
     },
     {
-      "src": "college_fee_system/wsgi.py",
+      "src": "vercel_handler.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
@@ -28,7 +28,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "college_fee_system/wsgi.py"
+      "dest": "vercel_handler.py"
     }
   ],
   "env": {
