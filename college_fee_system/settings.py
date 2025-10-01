@@ -12,7 +12,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here'
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Update allowed hosts for Vercel deployment
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', '.now.sh']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app', '.now.sh', '*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -106,15 +106,24 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # For Vercel deployment - handle SQLite limitation
 if os.environ.get('VERCEL_REGION'):
-    # Use SQLite for Vercel deployment
+    # Use in-memory SQLite for Vercel deployment
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': ':memory:',
         }
     }
     # Disable admin in serverless environment
     INSTALLED_APPS = [app for app in INSTALLED_APPS if app != 'django.contrib.admin']
+    
+    # Additional serverless settings
+    DEBUG = False
+    
+    # Ensure whitenoise is properly configured
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files configuration
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
