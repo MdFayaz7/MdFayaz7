@@ -4,12 +4,7 @@
 # Make build_files.sh executable
 chmod a+x build_files.sh
 
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Collect static files
-python manage.py collectstatic --noinput --clear
-
+echo "Creating directories for static files..."
 # Create directory for static files
 mkdir -p staticfiles_build/static
 

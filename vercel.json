@@ -12,7 +12,8 @@
       "src": "college_fee_system/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "15mb"
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
     }
   ],
@@ -29,5 +30,9 @@
       "src": "/(.*)",
       "dest": "college_fee_system/wsgi.py"
     }
-  ]
+  ],
+  "env": {
+    "PYTHONPATH": "/var/task",
+    "DJANGO_SETTINGS_MODULE": "college_fee_system.settings"
+  }
 }
