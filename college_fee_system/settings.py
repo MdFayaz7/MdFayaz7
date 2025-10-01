@@ -100,6 +100,23 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Configure for serverless environment
+import os
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# For Vercel deployment - handle SQLite limitation
+if os.environ.get('VERCEL_REGION'):
+    # Use SQLite for Vercel deployment
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+    # Disable admin in serverless environment
+    INSTALLED_APPS = [app for app in INSTALLED_APPS if app != 'django.contrib.admin']
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
