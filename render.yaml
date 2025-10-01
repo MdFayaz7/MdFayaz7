@@ -2,7 +2,7 @@ services:
   - type: web
     name: college-fee-system
     runtime: python
-    buildCommand: "pip install -r requirements.txt && npm install && npm run build && python manage.py collectstatic --noinput"
+    buildCommand: "pip install -r requirements.txt && npm install && npm run build && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py create_admin --username admin --password admin123 --email admin@college.com"
     startCommand: "gunicorn college_fee_system.wsgi:application --bind 0.0.0.0:$PORT"
     plan: free
     envVars:
