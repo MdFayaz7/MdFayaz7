@@ -2,13 +2,14 @@ services:
   - type: web
     name: college-fee-system
     runtime: python3
-    buildCommand: "pip install -r requirements.txt && npm install && npm run build && python manage.py collectstatic --noinput && python manage.py migrate"
+    buildCommand: "pip install -r requirements.txt && npm install && npm run build && python manage.py collectstatic --noinput"
     startCommand: "gunicorn college_fee_system.wsgi:application --bind 0.0.0.0:$PORT"
+    plan: free
     envVars:
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: false
+        value: "False"
       - key: DATABASE_URL
         fromDatabase:
           name: college-fee-db
@@ -27,8 +28,11 @@ services:
           type: web
           name: college-fee-system
           property: host
+      - key: PYTHON_VERSION
+        value: "3.9.18"
 
 databases:
   - name: college-fee-db
     databaseName: college_fee_system
     user: college_fee_user
+    plan: free
